@@ -1,0 +1,125 @@
+
+.mainarea {
+	width:calc( 100vw - 121px );
+	height:calc( 100vh - 64px );
+	position:absolute;
+	left:120px;
+}
+
+.menuclient {
+	width:calc( 100vw - 121px );
+	height:calc( 100vh - 64px );
+}
+
+.topbar {
+	background-color:#5B1952;
+	height:64px;
+}
+
+.menutoggle {
+	display: none;
+}
+
+.logo {
+	height:50px;
+	width:250px;
+	position:fixed;
+	top:5px;
+	padding-left:5px;
+	font-family:Nunito, sans-serif;
+	font-size:33px;
+	font-style:normal;
+	font-weight:600;
+	color:#FAFAFA;      
+}
+
+.account {
+	height:50px;
+	width:250px;
+	text-align: right !important;
+	position:fixed;
+	top:17px;
+	right:75px;
+	font-family:Nunito, sans-serif;
+	font-size:17px;
+	font-style:normal;
+	font-weight:600;
+	color:#FAFAFA;      
+}
+
+.drawermenu {
+	background-color:#293237;
+	width:120px;
+	position:fixed;
+	left:0;
+	top:64px;
+	overflow-x:hidden;
+	left:0px;
+	height:100%;
+	z-index:1;
+}
+
+
+.avatar {
+    height:50px;
+    width:50px;
+    position:fixed;
+    right:10px;
+    top:5px;
+    border-radius:50%;
+    background-image:url(https://customer.iitsd.cloud/assets/images/avatar.svg);
+    background-size:50px;
+}
+
+
+@media screen and (max-width: 600px) {
+	.mainarea {
+		position:absolute;
+		left:0px;
+		width:100vw;
+		height:calc( 100vh - 44px );
+	}
+
+	.menuclient {
+		width:100vw;
+		height:calc( 100vh - 44px );
+	}
+
+
+	.topbar {
+		height:44px;
+	}
+
+	.menutoggle {
+		display: block;
+	}
+	
+	.logo {
+		font-size:20px;
+	}
+
+	.drawermenu {
+		top:44px;
+	}
+	.draweropen {
+		display: block;
+	}
+	.drawerclosed {
+		display: none;
+	}	
+	.avatar {
+	    height:30px;
+	    width:30px;
+	    position:fixed;
+	    background-size:30px;
+	}
+	.account {
+		height:50px;
+		width:250px;
+		position:fixed;
+		top:10px;
+		right:50px;
+		font-size:15px;
+	}
+
+}

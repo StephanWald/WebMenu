@@ -1,0 +1,228 @@
+? 'HIDE'
+
+
+st$=clientenv("start",err=no_start)
+if st$>"" then
+    start 0,st$
+    release
+fi
+
+no_start:
+
+if info(3,6)<>"6" then
+    a=msgbox("Must be run with new webapp client!")
+    release
+fi
+
+baseurl! = BBjAPI().getBuiManager().getUrl()
+baseurl_bui! = baseurl!.replace("webapp","apps")
+
+
+
+sysgui = unt
+open (sysgui)"X0"
+sysgui! = bbjapi().getSysGui()
+window! = sysgui!.addWindow(25,25,1200,750,"HTML",$01101083$)
+window!.setCallback(BBjAPI.ON_CLOSE,"bye")
+
+
+inj_html! = window!.addHtmlView(998,0,0,0,0,"")
+inj_html!.setNoEdge(1)
+inj_html!.setCallback(BBjAPI.ON_PAGE_LOADED,"page_loaded")
+
+win_list! = new java.util.HashMap()
+
+
+cw_top! = window!.addChildWindow(100,0,0,100,80,"",$00100800$,1)
+cw_top!.setNoEdge(1)
+cw_top!.addStyle("topbar")
+
+menu_btn! = cw_top!.addButton(99,0,0,10,10,"")
+menu_btn!.addStyle("menutoggle")
+menu_btn!.setStyle("width","30px")
+menu_btn!.setStyle("height","30px")
+menu_btn!.setStyle("float","left")
+menu_btn!.setStyle("margin-top","4px")
+menu_btn!.setStyle("color","white")
+menu_btn!.setStyle("background","rgba(0,0,0,0.0)")
+menu_btn!.setClientEdge(0)
+menu_btn!.setNoEdge(1)
+myImageManager! = sysgui!.getImageManager()
+myImage! = myImageManager!.loadImageFromFile("WebMenu/res/ic_menu_white_24dp.png")
+menu_btn!.setImage(myImage!)
+menu_btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,"toggle_menu")
+
+logo! = cw_top!.addStaticText(101,0,0,200,80,"brevis.one")
+logo!.addStyle("logo")
+
+
+
+cw_left! = window!.addChildWindow(101,0,0,100,80,"",$00100800$,2)
+cw_left!.addStyle("drawermenu")
+cw_left!.addStyle("draweropen")
+
+
+ctxt = sysgui!.getAvailableContext()
+main! = window!.addChildWindow(132,0,0,100,80,"",$00100800$,ctxt)
+main!.addStyle("mainarea")
+    main!.setClientEdge(0)
+    main!.setNoEdge(1)    
+ 
+
+i=1
+    btn! = cw_left!.addButton(100+i,0,i*100,100,80,"<html><br>Device</html>" )
+    btn!.setStyle("width","120px")
+    btn!.setStyle("height","120px")
+    btn!.setStyle("color","white")
+    btn!.setStyle("background","rgba(0,0,0,0.1)")
+    btn!.setStyle("font-family","Nunito, sans-serif")
+    btn!.setStyle("font-size","18px")
+    btn!.setStyle("font-style","normal")
+    btn!.setStyle("font-weight","600")      
+    btn!.setClientEdge(0)
+    btn!.setNoEdge(1)
+    myImageManager! = sysgui!.getImageManager()
+    myImage! = myImageManager!.loadImageFromFile("WebMenu/res/ic_developer_board_white_24dp.png")
+    btn!.setImage(myImage!)
+    btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,"menu_click")
+
+i=i+1
+    btn! = cw_left!.addButton(100+i,0,i*100,100,80,"<html><br>Contracts</html>" )
+    btn!.setStyle("width","120px")
+    btn!.setStyle("height","120px")
+    btn!.setStyle("color","white")
+    btn!.setStyle("background","rgba(0,0,0,0.1)")
+    btn!.setStyle("font-family","Nunito, sans-serif")
+    btn!.setStyle("font-size","18px")
+    btn!.setStyle("font-style","normal")
+    btn!.setStyle("font-weight","600")        
+    btn!.setClientEdge(0)
+    btn!.setNoEdge(1)
+    myImageManager! = sysgui!.getImageManager()
+    myImage! = myImageManager!.loadImageFromFile("WebMenu/res/ic_contact_phone_white_24dp.png")
+    btn!.setImage(myImage!)
+    btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,"menu_click")
+
+i=i+1
+    btn! = cw_left!.addButton(100+i,0,i*100,100,80,"<html><br>Downloads</html>" )
+    btn!.setStyle("width","120px")
+    btn!.setStyle("height","120px")
+    btn!.setStyle("color","white")
+    btn!.setStyle("background","rgba(0,0,0,0.1)")
+    btn!.setStyle("font-family","Nunito, sans-serif")
+    btn!.setStyle("font-size","18px")
+    btn!.setStyle("font-style","normal")
+    btn!.setStyle("font-weight","600")      
+    btn!.setClientEdge(0)
+    btn!.setNoEdge(1)
+    myImageManager! = sysgui!.getImageManager()
+    myImage! = myImageManager!.loadImageFromFile("WebMenu/res/ic_cloud_download_white_24dp.png")
+    btn!.setImage(myImage!)
+    btn!.setCallback(BBjAPI.ON_BUTTON_PUSH,"menu_click")
+
+    account_name! = cw_top!.addStaticText(1221,0,0,200,80,"GWS-011012")
+    account_name!.addStyle("account")
+    
+    avatar! = cw_top!.addChildWindow(100,0,0,100,80,"",$00100800$,sysgui!.getAvailableContext())
+    avatar!.addStyle("avatar")
+
+
+
+process_events
+
+bye:
+    bye
+    
+menu_click:
+    if sel_btn! <> null() then
+        sel_btn!.setStyle("background-color","#293237")
+    fi
+    
+    if (cur_win <> 0) then
+        old_win! = null()
+        old_win! = win_list!.get(cur_win,err=*next)
+        if old_win! <> null() then
+            old_win!.setVisible(0)
+        fi
+    fi
+     
+    ev! = BBjAPI().getLastEvent()
+    ctrl! = ev!.getControl()
+    ctrl!.setStyle("background-color","#5B1952")
+    sel_btn! = ctrl!
+
+    cur_win = ctrl!.getID()
+    new_win! = null()
+    new_win! = win_list!.get(cur_win,err=*next)
+    if new_win! = null() then
+        gosub create_client
+    else
+        new_win!.setVisible(1)
+    fi
+    if drawer_status = 0 then  
+        gosub toggle_menu
+    fi
+return
+
+create_client:
+    switch cur_win
+        case 101    
+            vw! = main!.addHtmlView(110,0,0,10,10,"")
+            vw!.addStyle("menuclient")
+            vw!.setClientEdge(0)
+            vw!.setNoEdge(1)
+            vw!.setUrl("http://localhost:8888/bbjem/em")
+            win_list!.put(cur_win,vw!)
+            break
+        case 102
+            ctxt = sysgui!.getAvailableContext()
+            vw! = main!.addChildWindow(112,0,0,100,80,"",$00100800$,ctxt)
+            vw!.addStyle("menuclient")
+            vw!.addStaticText(100,0,0,300,20,"Hello World ID "+str(cur_win)+" context "+str(ctxt))
+            win_list!.put(cur_win,vw!)
+            break
+        case 103
+            vw! = main!.addHtmlView(114,0,0,10,10,"")
+            vw!.addStyle("menuclient")
+            vw!.setClientEdge(0)
+            vw!.setNoEdge(1)
+            vw!.setUrl(baseurl_bui!+"?start=PluginManagerLauncher.bbj")
+            win_list!.put(cur_win,vw!)
+            break
+    swend
+
+return
+
+
+toggle_menu:
+    rem drawer_status 0=open, 1=closed
+    if drawer_status then
+        drawer_status=0
+         cw_left!.addStyle("draweropen")
+         cw_left!.removeStyle("drawerclosed")
+    else
+        drawer_status=1
+        cw_left!.addStyle("drawerclosed")
+        cw_left!.removeStyle("draweropen")
+        
+    fi
+return
+
+
+page_loaded:
+    doc$ = "$doc", wnd$ = "$wnd"
+    ch=unt
+    open (ch)"WebMenu/res/menuframe.css"
+    read record (ch,siz=128000)style$
+    close (ch)
+    
+    style! = style$
+    style! = style!.replaceAll("\r","")
+    style! = style!.replaceAll("\n","")
+    
+    script$ = "var styl  = "+doc$+".createElement('style');"
+    script$ = script$ + "styl.textContent = """+style!+""";"
+    script$ = script$ + doc$ + ".head.appendChild(styl);"
+    inj_html!.executeScript(script$)
+    inj_html!.destroy()
+return
